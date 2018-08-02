@@ -3,7 +3,8 @@ let mix = require('laravel-mix');
 const webpackConfig = {
     resolve: {
         alias: {
-            sass: path.resolve(__dirname, 'resources/assets/sass')
+            sass: path.resolve(__dirname, 'resources/assets/sass'),
+            '@': path.resolve(__dirname, 'resources/assets/js')
         }
     }
 }

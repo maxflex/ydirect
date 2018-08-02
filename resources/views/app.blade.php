@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="app">
-        <Index :user="{{ $user }}"></Index>
+        <Index :user="{{ $user ?: 'null' }}"></Index>
     </div>
     <script src="{{ mix('js/app.js') }}"></script>
 </body>

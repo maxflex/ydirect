@@ -15,6 +15,9 @@ use Illuminate\Http\Request;
 
 Route::namespace('Api\v1')->prefix('v1')->group(function() {
     Route::post('login', 'LoginController@login');
+    Route::prefix('direct')->group(function() {
+        Route::get('keywords/{campaign_id}', 'DirectController@keywords');
+    });
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

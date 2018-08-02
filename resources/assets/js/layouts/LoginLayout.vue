@@ -1,37 +1,27 @@
 <template>
   <div>
-    <center autocomplete="off" id='center' class="animated fadeIn" style='animation-duration: 1.5s'>
-        <div class="g-recaptcha" data-sitekey="test" data-size="invisible" data-callback="captchaChecked"></div>
+    <center autocomplete="off" class="login-form animated fadeIn">
         <div class="login-logo group">
             <img src="/img/svg/logo.svg" />
         </div>
         <div class="input-groups">
             <div class="group">
-                <input :disabled="sms_verification" type="text" id="inputLogin" placeholder="логин" autofocus
-                  v-model="credentials.login" autocomplete="off">
+                <input :disabled="sms_verification" type="text" placeholder="логин" autofocus
+                  ref="login" v-model="credentials.login" autocomplete="off" @keyup.enter="imitateSubmit">
             </div>
             <div class="group">
-                <input :disabled="sms_verification" type="password" id="inputPassword" placeholder="пароль"
-                  v-model="credentials.password" autocomplete="new-password">
+                <input :disabled="sms_verification" type="password" placeholder="пароль" ref="password"
+                  v-model="credentials.password" autocomplete="new-password" @keyup.enter="imitateSubmit">
             </div>
             <div class="group" v-show="sms_verification">
-                <input type="text" id="sms-code" placeholder="sms code"
+                <input type="text" id="sms-code" placeholder="sms code" @keyup.enter="imitateSubmit"
                   v-model="credentials.code" autocomplete="off">
             </div>
             <div class="group">
-              <div class="btn btn-submit">
+              <div class="btn btn-submit" :class="{'btn--disabled': loading}" ref='submit'>
                 <button @click="callback">войти</button>
               </div>
             </div>
-            <!-- <div class="group">
-              <g-recaptcha class="btn btn-submit"
-                :data-sitekey="MIX_RECAPTCHA_SITE"
-                :data-validate="validate"
-                :data-callback="callback"
-                :class="{'btn--disabled': loading}"
-              >войти
-              </g-recaptcha>
-            </div> -->
         </div>
         <div v-show="error" class="login-errors">
           {{ error }}
@@ -69,11 +59,19 @@
 
     methods: {
       validate() {
-        this.loading = true
+        if (! this.credentials.login) {
+          this.$refs.login.focus()
+          return false
+        }
+        if (! this.credentials.password) {
+          this.$refs.password.focus()
+          return false
+        }
         return true
       },
 
       callback(token) {
+        this.loading = true
         axios.post(apiUrl('login'), {
           credentials: this.credentials,
           token
@@ -88,13 +86,16 @@
             default:
               Cookies.remove(TMP_CREDENTIALS_KEY)
               this.$store.commit('setUser', response.data)
-              console.log('login success')
           }
         }).catch(error => {
           this.error = error.response.data
         }).then(() => {
           this.loading = false
         })
+      },
+
+      imitateSubmit() {
+        this.$refs.submit.querySelector('button').click()
       }
     }
   }

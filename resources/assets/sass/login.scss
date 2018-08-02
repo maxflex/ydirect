@@ -149,7 +149,7 @@ input[type="password"] {
 }
 
 
-#center {
+.login-form {
     background: white;
     padding: 12px 20px;
     box-shadow: 1px 1px 15px 2px rgba(0, 0, 0, .3);
@@ -158,6 +158,7 @@ input[type="password"] {
     position: absolute;
     top: calc(50% - 109px);
     left: calc(50% - 110px);
+    animation-duration: 1.5s;
 }
 
 .ladda-spinner {
@@ -207,7 +208,7 @@ input[type="password"] {
 }
 
 .login-logo img {
-    width: 60px;
+    height: 30px;
 }
 
 .login-logo span {
