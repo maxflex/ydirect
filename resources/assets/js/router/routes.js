@@ -1,7 +1,9 @@
+import Keywords from '@/pages/Keywords'
+
 export default [
   {
     path: '/keywords',
     name: 'Keywords',
-    component: () => require('@/pages/Keywords')
+    component: Keywords
   }
 ]

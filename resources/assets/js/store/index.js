@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 import mutations from './mutations';
+import getters from './getters';
 
 const store = new Vuex.Store({
     state: {
@@ -11,6 +12,7 @@ const store = new Vuex.Store({
         loading: false
     },
     mutations,
+    getters,
 });
 
 export default store;

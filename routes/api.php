@@ -18,6 +18,7 @@ Route::namespace('Api\v1')->prefix('v1')->group(function() {
     Route::prefix('direct')->group(function() {
         Route::get('keywords/{campaign_id}', 'DirectController@keywords');
     });
+    Route::apiResource('strategies', 'StrategiesController');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

@@ -4,6 +4,7 @@ export default {
     },
     setCampaign(state, campaign) {
       state.campaign = campaign
+      localStorage.setItem('campaign_id', campaign.id)
     },
     loading(state, value) {
       state.loading = value

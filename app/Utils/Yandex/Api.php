@@ -21,9 +21,12 @@ class Api
             self::$client = new Client([
                 'base_uri' => self::BASE_URI,
                 'headers' => [
-                    'Authorization'   => 'Bearer ' . config('direct.token'),
-                    'Content-Type'    => 'application/json',
-                    'Accept-Language' => 'ru'
+                    'Authorization'     => 'Bearer ' . config('direct.token'),
+                    'Content-Type'      => 'application/json',
+                    'Accept-Language'   => 'ru',
+                    'skipReportHeader'  => 'true',
+                    'skipColumnHeader'  => 'true',
+                    'skipReportSummary' => 'true'
                 ]
             ]);
         }

@@ -86,6 +86,7 @@
             default:
               Cookies.remove(TMP_CREDENTIALS_KEY)
               this.$store.commit('setUser', response.data)
+              location.reload()
           }
         }).catch(error => {
           this.error = error.response.data
