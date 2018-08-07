@@ -113,7 +113,7 @@
       },
 
       edit(item) {
-        this.dialog_item = {...item}
+        this.dialog_item = JSON.parse(JSON.stringify(item))
         this.dialog = true
       },
 
