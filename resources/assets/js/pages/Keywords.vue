@@ -45,10 +45,16 @@
     </v-card>
    </v-dialog>
 
-    <v-data-table v-if="keywords.length" hide-actions hide-headers :items="keywords">
+    <v-data-table v-if="keywords.length" hide-actions :headers="headers" :items="keywords">
       <template slot="items" slot-scope="{ item }">
         <td>
           {{ item.Keyword }}
+        </td>
+        <td>
+          {{ item.Impressions }}
+        </td>
+        <td>
+          {{ item.Clicks }}
         </td>
         <td>
           {{ item.Bid }}
@@ -79,9 +85,12 @@
         loading: false,
         headers: [
           { text: 'ключевое слово', value: 'Keyword' },
+          { text: 'показов', value: 'Impressions' },
+          { text: 'кликов', value: 'Clicks' },
           { text: 'ставка', value: 'Bid' },
-          { text: 'средняя позиция', value: 'position' },
-          { text: '', sortable: 'false' },
+          { text: 'средняя позиция за неделю', value: 'position' },
+          { text: 'стратегия', sortable: false },
+          { text: '', sortable: false },
         ],
         dialog_item: null,
         strategies: [],
@@ -122,7 +131,7 @@
         if (this.dialog_item.params.id) {
           if (this.dialog_item.params.strategy_mode_id && this.dialog_item.params.strategy.id) {
             var promise = axios.put(apiUrl(`strategies/${this.dialog_item.params.id}`), {
-              ... _.pick(this.dialog_item.params, ['param_1'])
+              ... _.pick(this.dialog_item.params, ['strategy_mode_id', 'param_1'])
             })
           } else {
             var promise = axios.delete(apiUrl(`strategies/${this.dialog_item.params.id}`))

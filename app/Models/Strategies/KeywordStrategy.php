@@ -3,7 +3,7 @@
 namespace App\Models\Strategies;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Utils\Yandex\Direct;
+use App\Utils\Yandex\{Direct, DateRangeTypes};
 
 class KeywordStrategy extends Model
 {
@@ -37,6 +37,7 @@ class KeywordStrategy extends Model
     {
         switch($this->strategy_mode_id) {
             case 1:
+            case 2:
                 $this->positionStrategy();
                 break;
         }
@@ -44,10 +45,11 @@ class KeywordStrategy extends Model
 
     public function positionStrategy()
     {
-        $keyword = Direct::keyword($this->keyword_id);
-        $diff = (float)$keyword->position - (float)$this->param_1;
-        $increase_bid_by = $keyword->Bid * $diff;
-        \Log::info("Increasing {$this->keyword_id} by {$increase_bid_by}: " . ($keyword->Bid + $increase_bid_by));
-        Direct::setKeywordBid($this->keyword_id, $keyword->Bid + $increase_bid_by);
+        $keyword = Direct::keyword($this->keyword_id, $this->strategyMode->settings->DateRangeType);
+        if ($keyword->position) {
+            $diff = (float)$keyword->position - (float)$this->param_1;
+            $increase_bid_by = round($keyword->Bid * ($diff / 10) * $this->strategyMode->settings->coeff);
+            Direct::setKeywordBid($this->keyword_id, $keyword->Bid + $increase_bid_by);
+        }
     }
 }

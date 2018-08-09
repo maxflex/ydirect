@@ -20,28 +20,39 @@ class Direct {
         return $json_response ? json_decode($response)->result : $response;
     }
 
-    public static function keywords($campaign_id)
+    /**
+     * $DateRangeType – если не установлен, слова возвращаются без позиций
+     */
+    public static function keywords($campaign_id, $DateRangeType = DateRangeTypes::LAST_7_DAYS)
     {
         $params = self::params('get', [
             'SelectionCriteria' => [
                 'CampaignIds' => [$campaign_id]
             ],
-            'FieldNames' => ["Id", "Keyword", "Status", "Bid", "ServingStatus"]
+            'FieldNames' => ["Id", "Keyword", "Status", "Bid",  "StatisticsSearch"]
         ]);
 
         $keywords = self::call(self::SERVICE_KEYWORDS, $params)->Keywords;
 
-        $positions = collect(self::keywordsAvgPosition($campaign_id));
+        $positions = $DateRangeType ? collect(self::keywordsAvgPosition($campaign_id, $DateRangeType)) : null;
 
         return collect($keywords)->map(function($keyword) use ($positions) {
-            $keyword->Bid      = $keyword->Bid / 1000000;
-            $keyword->params   = KeywordStrategy::get($keyword->Id);
-            $keyword->position = $positions->firstWhere('keyword_id', $keyword->Id)['position'];
+            $keyword->Keyword = implode(' ', array_filter(explode(' ', $keyword->Keyword), function($word) {
+                return strpos($word, '-') !== 0;
+            }));
+            if ($positions) {
+                $keyword->position = $positions->firstWhere('keyword_id', $keyword->Id)['position'];
+            }
+            $keyword->Bid         = $keyword->Bid / 1000000;
+            $keyword->Impressions = $keyword->StatisticsSearch->Impressions;
+            $keyword->Clicks      = $keyword->StatisticsSearch->Clicks;
+            $keyword->params      = KeywordStrategy::get($keyword->Id);
+            unset($keyword->StatisticsSearch);
             return $keyword;
         })->all();
     }
 
-    public static function keyword($keyword_id)
+    public static function keyword($keyword_id, $DateRangeType = DateRangeTypes::LAST_7_DAYS)
     {
         $params = self::params('get', [
             'SelectionCriteria' => [
@@ -51,12 +62,12 @@ class Direct {
         ]);
         $keyword = self::call(self::SERVICE_KEYWORDS, $params)->Keywords[0];
         $keyword->Bid = $keyword->Bid / 1000000;
-        $positions = collect(self::keywordsAvgPosition($keyword->CampaignId));
+        $positions = collect(self::keywordsAvgPosition($keyword->CampaignId, $DateRangeType));
         $keyword->position = $positions->firstWhere('keyword_id', $keyword->Id)['position'];
         return $keyword;
     }
 
-    public static function keywordsAvgPosition($campaign_id)
+    public static function keywordsAvgPosition($campaign_id, $DateRangeType = DateRangeTypes::LAST_7_DAYS)
     {
         $params = self::params('get', [
             "ReportName" => uniqid(),
@@ -69,7 +80,7 @@ class Direct {
                 ]]
             ],
             "FieldNames" => ["CriteriaId", "AvgClickPosition"],
-            "DateRangeType" => "LAST_7_DAYS",
+            "DateRangeType" => $DateRangeType,
             "Format" => "TSV",
             "IncludeVAT" => "NO",
             "IncludeDiscount" => "NO"

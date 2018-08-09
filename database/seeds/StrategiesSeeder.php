@@ -23,7 +23,10 @@ class StrategiesSeeder extends Seeder
             'name' => 'лёгкий',
             'strategy_id' => $strategy->id
         ]);
-
+        StrategyMode::create([
+            'name' => 'жёсткий',
+            'strategy_id' => $strategy->id
+        ]);
 
         Schema::enableForeignKeyConstraints();
     }
