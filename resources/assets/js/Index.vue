@@ -16,6 +16,9 @@
       if (this.user) {
         this.$store.commit('setUser', this.user)
       }
+      if (localStorage.hasOwnProperty('drawer')) {
+        this.$store.commit('toggleDrawer', localStorage.getItem('drawer') === 'true')
+      }
     }
   }
 </script>

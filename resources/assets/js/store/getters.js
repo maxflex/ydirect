@@ -11,11 +11,5 @@ export default {
       }
     }
     return null
-  },
-  drawer(state) {
-    if (localStorage.hasOwnProperty('drawer')) {
-      return localStorage.getItem('drawer') === 'true'
-    }
-    return state.drawer
   }
 }

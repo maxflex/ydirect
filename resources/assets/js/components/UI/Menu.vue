@@ -2,7 +2,7 @@
   <v-navigation-drawer
     clipped
     fixed
-    v-model="drawer"
+    :value="$store.state.drawer"
     app
   >
     <v-list dense>
