@@ -55,7 +55,8 @@ import campaigns from '@/api/campaigns'
 
 export default {
   data: () => ({
-    campaigns
+    campaigns,
+    drawer: true,
   }),
   methods: {
     selectCampaign(campaign) {
