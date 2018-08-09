@@ -89,7 +89,7 @@
           { text: 'кликов', value: 'Clicks' },
           { text: 'ставка', value: 'Bid' },
           { text: 'средняя позиция за неделю', value: 'position' },
-          { text: 'стратегия', sortable: false },
+          { text: 'стратегия', value: 'params.param_1' },
           { text: '', sortable: false },
         ],
         dialog_item: null,

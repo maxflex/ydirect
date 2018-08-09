@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <Menu></Menu>
     <v-toolbar app fixed clipped-left>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="$store.commit('toggleDrawer')"></v-toolbar-side-icon>
       <v-toolbar-title>
         <span v-if="$store.getters.campaign != null">{{ $store.getters.campaign.title }}</span>
       </v-toolbar-title>
@@ -28,6 +28,6 @@
   import Menu from '@/components/UI/Menu'
 
   export default {
-    components: { Menu }
+    components: { Menu },
   }
 </script>

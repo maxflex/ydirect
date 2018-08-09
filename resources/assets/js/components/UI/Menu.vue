@@ -55,10 +55,8 @@ import campaigns from '@/api/campaigns'
 
 export default {
   data: () => ({
-    drawer: true,
     campaigns
   }),
-
   methods: {
     selectCampaign(campaign) {
       this.$store.commit('setCampaign', campaign)
