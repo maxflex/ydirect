@@ -79,7 +79,7 @@ class Direct {
                     "Values" => [$campaign_id]
                 ]]
             ],
-            "FieldNames" => ["CriteriaId", "AvgClickPosition"],
+            "FieldNames" => ["CriteriaId", "AvgImpressionPosition"],
             "DateRangeType" => $DateRangeType,
             "Format" => "TSV",
             "IncludeVAT" => "NO",
