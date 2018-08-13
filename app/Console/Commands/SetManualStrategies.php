@@ -40,7 +40,7 @@ class SetManualStrategies extends Command
     public function handle()
     {
         $this->info("Getting keywords...");
-        $keywords = Direct::keywords(35878143);
+        $keywords = Direct::keywords(36204536);
 
         $this->info("Creating strategies...");
         $bar = $this->output->createProgressBar(count($keywords));
@@ -48,7 +48,7 @@ class SetManualStrategies extends Command
             KeywordStrategy::create([
                 'keyword_id' => $keyword->Id,
                 'strategy_mode_id' => 2,
-                'param_1' => '1.5'
+                'param_1' => '1.3'
             ]);
             $bar->advance();
         }
