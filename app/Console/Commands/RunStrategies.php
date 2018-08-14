@@ -39,7 +39,7 @@ class RunStrategies extends Command
      */
     public function handle()
     {
-        $keyword_strategies = KeywordStrategy::findAll();
+        $keyword_strategies = KeywordStrategy::all();
 
         $bar = $this->output->createProgressBar(count($keyword_strategies));
         foreach($keyword_strategies as $keyword_strategy) {
