@@ -21,7 +21,7 @@ class StrategyMode extends Model
             case 2:
                 return (object)[
                     'DateRangeType' => DateRangeTypes::LAST_3_DAYS,
-                    'coeff' => 3,
+                    'coeff' => 5,
                 ];
         }
     }
