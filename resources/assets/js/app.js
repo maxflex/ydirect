@@ -20,7 +20,7 @@ import store from './store'
 import router from './router'
 import Vuetify from 'vuetify'
 
-Vue.use(Vuetify) 
+Vue.use(Vuetify)
 
 const app = new Vue({
     el: '#app',
